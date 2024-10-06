@@ -17,4 +17,16 @@
     <Folder Include="Resources\Config\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\Config\licentieovereenkomst.rtf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Config\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Config\MySqlAnalyzer.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
