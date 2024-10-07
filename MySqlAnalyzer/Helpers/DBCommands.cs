@@ -1,99 +1,185 @@
-﻿using MySqlConnection = MySqlConnector.MySqlConnection;
-using MySqlCommand = MySqlConnector.MySqlCommand;
-
-namespace MySqlAnalyzer.Helpers;
+﻿namespace MySqlAnalyzer.Helpers;
 public class DBCommands
 {
-    public static void GetStructure()
-    {
-        string query = $"SELECT TABLE_NAME, TABLE_TYPE FROM information_schema.tables WHERE table_schema = '{DBNames.Database}';";
 
-        MySqlConnection connection = new(DBConnect.ConnectionString);
-        connection.Open();
+	#region Get Table or View Structure
+	/// <summary>
+	///		Retrieves the structure of all base tables in the specified database.
+	///		The method queries the information schema for metadata about the tables, such as
+	///		table name, type, engine, creation and update times, collation, and comments.
+	/// </summary>
+	/// <param name="database">The name of the database for which the table structure is retrieved.</param>
+	/// <param name="tabletype">The routinetype (BASE_Table of VIEW) that should be in the return list.</param>
+	/// <returns>A list of Tables or Views where each object contains metadata of a base table or view in the database.</returns>
+	/// <remarks>
+	///		This method specifically filters for base tables and views (ignoring other table types).
+	///		Ensure that the provided database exists and that the connection string is properly configured.
+	/// </remarks>
+	public static List<Tables> GetStructure( string database, string tabletype )
+	{
+		List<Tables> tableList = [];
+		var count = 0;
 
-        using (var command = new MySqlCommand(query, connection))
-        {
-            using (var reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    string tableName = reader["TABLE_NAME"].ToString();
-                    string tableType = reader["TABLE_TYPE"].ToString(); // 'BASE TABLE' for tables, 'VIEW' for views
-                    Console.WriteLine($"Tabel/View: {tableName}, Type: {tableType}");
-                    //TODO: Dump in a list for Tables, and Views
-                }
-            }
-        }
-    }
+		#region Query
+		string query = $"{DBNames.SqlSelect}" +
+			$"{DBNames.InfoSchemeTableName}, " +
+			$"{DBNames.InfoSchemeTableType}, " +
+			$"{DBNames.InfoSchemeTableEngine}, " +
+			$"{DBNames.InfoSchemeTableCreated}, " +
+			$"{DBNames.InfoSchemeTableUpdated}, " +
+			$"{DBNames.InfoSchemeTableCollation}, " +
+			$"{DBNames.InfoSchemeTableComments}" +
+			$"{DBNames.SqlFrom}" +
+			$"{DBNames.InfoSchemeTables}" +
+			$"{DBNames.SqlWhere}" +
+			$"{DBNames.InfoSchemeTableSchema}= " +
+			$"'{database}';";
+		#endregion
 
-    public static void GetTableStructure(string _tableName)
-    {
-        _tableName = "brand";  // Specifieke tabel waarvoor je de kolommen wilt ophalen
-        string query = $"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_KEY FROM information_schema.columns WHERE table_name = '{_tableName}' AND table_schema = '{DBNames.Database}';";
+		MySqlConnection connection = new(DBConnect.ConnectionString);
+		connection.Open();
 
-        MySqlConnection connection = new(DBConnect.ConnectionString);
-        connection.Open();
+		using var command = new MySqlCommand( query, connection );
+		using var reader = command.ExecuteReader();
+		while ( reader.Read() )
+		{
+			if ( ( reader [ $"{DBNames.InfoSchemeTableType}" ].ToString() ?? "" ).Equals( tabletype, StringComparison.CurrentCultureIgnoreCase ) )
+			{
+				Tables table = new Tables
+				{
+					TableId = count,
+					TableName = reader[$"{DBNames.InfoSchemeTableName}"].ToString(),
+					TableType = reader[$"{DBNames.InfoSchemeTableType}"].ToString(),
+					TableEngine = reader[$"{DBNames.InfoSchemeTableEngine}"].ToString(),
+					TableCreation = reader[$"{DBNames.InfoSchemeTableCreated}"].ToString(),
+					TableUpdated = reader[$"{DBNames.InfoSchemeTableUpdated}"].ToString(),
+					TableCallation = reader[$"{DBNames.InfoSchemeTableCollation}"].ToString(),
+					TableComments = reader[$"{DBNames.InfoSchemeTableComments}"].ToString(),
+				};
 
-        using (var command = new MySqlCommand(query, connection))
-        {
-            using (var reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    string columnName = reader["COLUMN_NAME"].ToString();
-                    string dataType = reader["DATA_TYPE"].ToString();
-                    string isNullable = reader["IS_NULLABLE"].ToString();
-                    string columnKey = reader["COLUMN_KEY"].ToString(); // Bijvoorbeeld 'PRI' voor primaire sleutels
-                    Console.WriteLine($"Kolom: {columnName}, Type: {dataType}, Nullable: {isNullable}, Key: {columnKey}");
-                    //TODO: Dump in TabelProperties list
-                }
-            }
-        }
-    }
+				tableList.Add( table );
+				count++;
+			}
+		}
 
-    public static void GetViews()
-    {
-        string viewName = "view_category";  // Naam van de view
-        string query = $"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_KEY FROM information_schema.columns WHERE table_name = '{viewName}' AND table_schema = '{DBNames.Database}';";
+		return tableList;
+	}
+	#endregion
 
-        MySqlConnection connection = new(DBConnect.ConnectionString);
-        connection.Open();
+	#region Get structure of functions or Stored Procedure
+	/// <summary>
+	///		Retrieves the structure of all functions and stored procedures in the specified database.
+	///		The method queries the information schema for metadata about the functions and procedures, such as
+	///		name, type, SQL, creation and update times and comments.
+	/// </summary>
+	/// <param name="database">The name of the database for which the table structure is retrieved.</param>
+	/// <param name="routinetype">The routinetype (FUNCTION or PROCEDURE) that should be in the return list.</param>
+	/// <returns>A list of Functions or Procedures where each object contains metadata of a function or procedure in the database.</returns>
+	/// <remarks>
+	///		This method specifically filters for functions and procedures (ignoring other routine types).
+	///		Ensure that the provided database exists and that the connection string is properly configured.
+	/// </remarks>
+	public static List<Routines> GetFunctions( string database, string routinetype )
+	{
+		List<Routines> routineList = [];
+		var count = 0;
 
-        using (var command = new MySqlCommand(query, connection))
-        {
-            using (var reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    string columnName = reader["COLUMN_NAME"].ToString();
-                    string dataType = reader["DATA_TYPE"].ToString();
-                    string isNullable = reader["IS_NULLABLE"].ToString();
-                    string columnKey = reader["COLUMN_KEY"].ToString();
-                    Console.WriteLine($"Kolom: {columnName}, Type: {dataType}, Nullable: {isNullable}, Key: {columnKey}");
-                }
-            }
-        }
-    }
+		#region Query
+		string query = $"{DBNames.SqlSelect}" +
+			$"{DBNames.RoutineName}" +
+			$"{DBNames.RoutineType}" +
+			$"{DBNames.RoutineDataType}" +
+			$"{DBNames.RoutineDefenition}" +
+			$"{DBNames.RoutineDataAccess}" +
+			$"{DBNames.RoutineCreated}" +
+			$"{DBNames.RoutineUpdated}" +
+			$"{DBNames.RoutineSQLMode}" +
+			$"{DBNames.RoutineComment}" +
+			$"{DBNames.SqlFrom}" +
+			$"{DBNames.InfoSchemeRoutines}" +
+			$"{DBNames.SqlWhere}" +
+			$"{DBNames.InfoSchemeRoutineSchema}= " +
+			$"'{database}';";
+		#endregion
 
-    public static void GetFunctions()
-    {
-        string query = $"SELECT ROUTINE_NAME, ROUTINE_TYPE FROM information_schema.routines WHERE routine_schema = '{DBNames.Database}';";
+		MySqlConnection connection = new(DBConnect.ConnectionString);
+		connection.Open();
 
-        MySqlConnection connection = new(DBConnect.ConnectionString);
-        connection.Open();
+		using var command = new MySqlCommand( query, connection );
+		using var reader = command.ExecuteReader();
+		while ( reader.Read() )
+		{
+			if ( ( reader [ $"{DBNames.RoutineType}" ].ToString() ?? "" ).Equals( routinetype, StringComparison.CurrentCultureIgnoreCase ) )
+			{
+				Routines routine = new Routines
+				{
+					RoutineId = count,
+					RoutineName = reader[ $"{DBNames.RoutineName}"].ToString(),
+					RoutineType = reader[ $"{DBNames.RoutineType}"].ToString(),
+					RoutineDataType = reader[ $"{DBNames.RoutineDataType}"].ToString(),
+					RoutineDefenition = reader[ $"{DBNames.RoutineDefenition}"].ToString(),
+					RoutineDataAccess = reader[ $"{DBNames.RoutineDataAccess}"].ToString(),
+					RoutineCreated = reader[ $"{DBNames.RoutineCreated}"].ToString(),
+					RoutineUpdated = reader[ $"{DBNames.RoutineUpdated}"].ToString(),
+					RoutineSQLMode = reader[ $"{DBNames.RoutineSQLMode}"].ToString(),
+					RoutineComment = reader[ $"{DBNames.RoutineComment}"].ToString()
+				};
 
-        using (var command = new MySqlCommand(query, connection))
-        {
-            using (var reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    string routineName = reader["ROUTINE_NAME"].ToString();
-                    string routineType = reader["ROUTINE_TYPE"].ToString(); // 'FUNCTION' or 'PROCEDURE'
-                    Console.WriteLine($"Routine: {routineName}, Type: {routineType}");
-                    //TODO: Dump result in Function, or Procedure list
-                }
-            }
-        }
-    }
+				routineList.Add( routine );
+				count++;
+			}
+		}
+		return routineList;
+	}
+	#endregion
+
+	public static void GetTableStructure( string _database, string _tableName, List<Tables> _tablesList )
+	{
+
+		_tableName = "brand";  // Specifieke tabel waarvoor je de kolommen wilt ophalen
+		string query = $"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_KEY FROM information_schema.columns WHERE table_name = '{_tableName}' AND table_schema = '{DBNames.Database}';";
+
+		MySqlConnection connection = new(DBConnect.ConnectionString);
+		connection.Open();
+
+		using ( var command = new MySqlCommand( query, connection ) )
+		{
+			using ( var reader = command.ExecuteReader() )
+			{
+				while ( reader.Read() )
+				{
+					string columnName = reader["COLUMN_NAME"].ToString();
+					string dataType = reader["DATA_TYPE"].ToString();
+					string isNullable = reader["IS_NULLABLE"].ToString();
+					string columnKey = reader["COLUMN_KEY"].ToString(); // Bijvoorbeeld 'PRI' voor primaire sleutels
+					Console.WriteLine( $"Kolom: {columnName}, Type: {dataType}, Nullable: {isNullable}, Key: {columnKey}" );
+					//TODO: Dump in TabelProperties list
+				}
+			}
+		}
+	}
+
+	public static void GetViews()
+	{
+		string viewName = "view_category";  // Naam van de view
+		string query = $"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_KEY FROM information_schema.columns WHERE table_name = '{viewName}' AND table_schema = '{DBNames.Database}';";
+
+		MySqlConnection connection = new(DBConnect.ConnectionString);
+		connection.Open();
+
+		using ( var command = new MySqlCommand( query, connection ) )
+		{
+			using ( var reader = command.ExecuteReader() )
+			{
+				while ( reader.Read() )
+				{
+					string columnName = reader["COLUMN_NAME"].ToString();
+					string dataType = reader["DATA_TYPE"].ToString();
+					string isNullable = reader["IS_NULLABLE"].ToString();
+					string columnKey = reader["COLUMN_KEY"].ToString();
+					Console.WriteLine( $"Kolom: {columnName}, Type: {dataType}, Nullable: {isNullable}, Key: {columnKey}" );
+				}
+			}
+		}
+	}
 }
