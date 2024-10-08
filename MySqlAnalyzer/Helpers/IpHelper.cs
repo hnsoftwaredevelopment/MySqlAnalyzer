@@ -1,4 +1,4 @@
-﻿namespace MySqlAnalyzer.Helper;
+﻿namespace MySqlAnalyzer.Helpers;
 
 public class IpHelper
 {

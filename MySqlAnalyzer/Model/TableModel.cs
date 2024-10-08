@@ -1,5 +1,5 @@
 ﻿namespace MySqlAnalyzer.Model;
-public class Tables
+public class TableModel
 {
 	public int? TableId { get; set; }
 	public string? TableName { get; set; }

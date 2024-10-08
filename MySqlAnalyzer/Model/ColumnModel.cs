@@ -1,5 +1,5 @@
 ﻿namespace MySqlAnalyzer.Model;
-public class Columns
+public class ColumnModel
 {
 	public int? ColumnTableId { get; set; }
 	public string? ColumnTableName { get; set; }

@@ -1,5 +1,5 @@
 ﻿namespace MySqlAnalyzer.Model;
-public class Routines
+public class RoutineModel
 {
 	public int? RoutineId { get; set; }
 	public string? RoutineName { get; set; }
