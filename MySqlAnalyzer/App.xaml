@@ -5,5 +5,12 @@
 	xmlns:local="clr-namespace:MySqlAnalyzer"
 	StartupUri="MainWindow.xaml"
 	>
-	<Application.Resources />
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="Resources/Icons/Icons.xaml" />
+				<ResourceDictionary Source="Resources/Styles/SfDataGrid.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
 </Application>
