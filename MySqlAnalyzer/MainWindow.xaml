@@ -64,19 +64,19 @@
 			<!--#endregion-->
 
 			<!--#region Datagrid-->
-			<syncfusion:SfDataGrid HeaderStyle="{DynamicResource DefaultSfDataGridHeaderStyle}"
+			<syncfusion:SfDataGrid
 				x:Name="tableDataGrid"
 				Grid.Row="1"
 				Margin="3,5"
 				d:ItemsSource="{d:SampleData}"
 				AllowDeleting="False"
 				AllowEditing="False"
-				AllowFiltering="True"
+				AllowFiltering="False"
 				AllowResizingColumns="True"
 				AllowTriStateSorting="True"
 				AutoGenerateColumns="False"
 				ColumnSizer="Star"
-				FilterRowPosition="Top"
+				FilterRowPosition="FixedTop"
 				ItemsSource="{Binding TableViewModel.TableList}"
 				SelectionMode="Extended"
 				ShowSortNumbers="True"
@@ -87,13 +87,13 @@
 					<syncfusion:GridCheckBoxSelectorColumn
 						Width="30"
 						AllowFiltering="False"
-						AllowSorting="False"
+						AllowSorting="False" FilterRowOptionsVisibility="Collapsed"
 						MappingName="SelectorColumn"
 						/>
 
 					<syncfusion:GridTextColumn
 						AllowFiltering="True"
-						AllowSorting="True"
+						AllowSorting="True" ImmediateUpdateColumnFilter="True"
 						HeaderText="Table"
 						HorizontalHeaderContentAlignment="Left"
 						MappingName="TableName"
@@ -525,16 +525,6 @@
 						MappingName="RoutineName"
 						/>
 				</syncfusion:SfDataGrid.Columns>
-				<syncfusion:SfDataGrid.Style>
-					<Style TargetType="syncfusion:SfDataGrid">
-						<Style.Triggers>
-							<!--  Hide datagrid if its empty  -->
-							<DataTrigger Binding="{Binding TableViewModel.ProcedurenList.Count}" Value="0">
-								<Setter Property="Visibility" Value="Collapsed" />
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</syncfusion:SfDataGrid.Style>
 			</syncfusion:SfDataGrid>
 			<!--#endregion-->
 

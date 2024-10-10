@@ -7,7 +7,7 @@
 	>
 
 	<converters:FilterIconConverter x:Key="FilterIconConverter" />
-
+	<converters:AllowFilteringToVisibilityConverter x:Key="AllowFilteringToVisibilityConverter" />
 	<local:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
 	<local:SortDirectionToWidthConverter x:Key="sortDirectionToWidthConverter" />
 	<Style TargetType="{x:Type local:GridHeaderCellControl}">
@@ -25,19 +25,22 @@
 				<ControlTemplate TargetType="{x:Type local:GridHeaderCellControl}">
 					<Grid>
 						<Border
-                        x:Name="PART_FrozenCellBorder"
-                        Background="Transparent"
-                        BorderBrush="{TemplateBinding BorderBrush}" />
+							x:Name="PART_FrozenCellBorder"
+							Background="Transparent"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							/>
 						<Border
-                        x:Name="PART_FooterCellBorder"
-                        Background="Transparent"
-                        BorderBrush="{TemplateBinding BorderBrush}" />
+							x:Name="PART_FooterCellBorder"
+							Background="Transparent"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							/>
 						<Border
-                        x:Name="PART_HeaderCellBorder"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
+							x:Name="PART_HeaderCellBorder"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							SnapsToDevicePixels="True"
+							>
 							<Grid Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
@@ -45,59 +48,64 @@
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<ContentPresenter
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Focusable="False" />
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									Focusable="False"
+									/>
 								<Border x:Name="PART_FilterPopUpPresenter" />
 								<Grid
-                                x:Name="PART_SortButtonPresenter"
-                                Grid.Column="1"
-                                SnapsToDevicePixels="True">
+									x:Name="PART_SortButtonPresenter"
+									Grid.Column="1"
+									SnapsToDevicePixels="True"
+									>
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="0"
-                                        MinWidth="{Binding SortDirection, Converter={StaticResource sortDirectionToWidthConverter}, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+										<ColumnDefinition Width="0" MinWidth="{Binding SortDirection, Converter={StaticResource sortDirectionToWidthConverter}, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
 										<ColumnDefinition Width="*" />
 									</Grid.ColumnDefinitions>
 									<Path
-                                    Width="14"
-                                    Height="14"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Data="{StaticResource Down}"
-                                    Fill="DarkBlue"
-                                    SnapsToDevicePixels="True"
-                                    Stretch="Fill"
-                                    Visibility="{Binding SortDirection, ConverterParameter=Ascending, Converter={StaticResource sortDirectionToVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+										Width="14"
+										Height="14"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										Data="{StaticResource Down}"
+										Fill="DarkBlue"
+										SnapsToDevicePixels="True"
+										Stretch="Fill"
+										Visibility="{Binding SortDirection, ConverterParameter=Ascending, Converter={StaticResource sortDirectionToVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+										/>
 									<Path
-                                    Width="14"
-                                    Height="14"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Data="{StaticResource Up}"
-                                    Fill="DarkBlue"
-                                    SnapsToDevicePixels="True"
-                                    Stretch="Fill"
-                                    Visibility="{Binding SortDirection, ConverterParameter=Decending, Converter={StaticResource sortDirectionToVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+										Width="14"
+										Height="14"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										Data="{StaticResource Up}"
+										Fill="DarkBlue"
+										SnapsToDevicePixels="True"
+										Stretch="Fill"
+										Visibility="{Binding SortDirection, ConverterParameter=Decending, Converter={StaticResource sortDirectionToVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+										/>
 									<TextBlock
-                                    Grid.Column="1"
-                                    Margin="0,-4,0,0"
-                                    VerticalAlignment="Center"
-                                    Foreground="{TemplateBinding Foreground}"
-                                    SnapsToDevicePixels="True"
-                                    Text="{TemplateBinding SortNumber}"
-                                    TextBlock.FontSize="10"
-                                    Visibility="{TemplateBinding SortNumberVisibility}" />
+										Grid.Column="1"
+										Margin="0,-4,0,0"
+										VerticalAlignment="Center"
+										Foreground="{TemplateBinding Foreground}"
+										SnapsToDevicePixels="True"
+										Text="{TemplateBinding SortNumber}"
+										TextBlock.FontSize="10"
+										Visibility="{TemplateBinding SortNumberVisibility}"
+										/>
 								</Grid>
-								<!-- Filter Icon as Image -->
+								<!--  Filter Icon as Image  -->
 								<Image
-                                x:Name="FilterIcon"
-                                Grid.Column="2"
-                                Width="14"
-                                Height="14"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Source="{StaticResource Filter2}"
-                                Visibility="{TemplateBinding FilterIconVisiblity}" />
+									x:Name="FilterIcon"
+									Grid.Column="2"
+									Width="14"
+									Height="14"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Source="{StaticResource Filter}"
+									Visibility="{Binding Column.AllowFiltering, Converter={StaticResource AllowFilteringToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=syncfusion:GridHeaderCellControl}}"
+									/>
 							</Grid>
 						</Border>
 					</Grid>
@@ -113,11 +121,12 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="syncfusion:GridFilterRowCell">
 					<Grid>
-						<Border 
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        Background="{TemplateBinding Background}"
-                        SnapsToDevicePixels="True">
+						<Border
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							SnapsToDevicePixels="True"
+							>
 
 							<Grid Margin="5,3,5,3">
 								<Grid.ColumnDefinitions>
@@ -125,22 +134,35 @@
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 
-								<!-- Hier komt de inhoud van de filtercel (bijvoorbeeld een TextBox) -->
-								<ContentPresenter 
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                Focusable="False"
-                                Margin="0,0,5,0"
-                                SnapsToDevicePixels="True" />
+								<!--  Inhoud van de filtercel (bijv. TextBox)  -->
+								<ContentPresenter
+									Margin="0,0,5,0"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Center"
+									Focusable="False"
+									SnapsToDevicePixels="True"
+									/>
 
-								<!-- Het vervangen van de pijldownknop -->
-								<Image
-                                Grid.Column="1"
-                                Width="14"
-                                Height="14"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Source="{StaticResource search}" Visibility="{TemplateBinding FilterOptionButtonVisibility}" />
+								<StackPanel
+									Grid.Column="1"
+									Orientation="Horizontal"
+									Visibility="{Binding DataContext.Column.AllowFiltering, Converter={StaticResource AllowFilteringToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=syncfusion:GridFilterRowCell}}"
+                                
+                                >
+									<TextBox
+										x:Name="SearchTextBox"
+										Width="100"
+										Margin="0,0,5,0"
+										/>
+									<Image
+										x:Name="searchIcon"
+										Width="14"
+										Height="14"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										Source="{StaticResource search}"
+										/>
+								</StackPanel>
 							</Grid>
 						</Border>
 					</Grid>
