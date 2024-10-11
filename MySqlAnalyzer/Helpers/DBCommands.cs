@@ -55,8 +55,8 @@ public class DBCommands
 					TableEngine = reader[$"{DBNames.InfoSchemeTableEngine}"].ToString(),
 					TableCreation = reader[$"{DBNames.InfoSchemeTableCreated}"].ToString(),
 					TableUpdated = reader[$"{DBNames.InfoSchemeTableUpdated}"].ToString(),
-					TableCallation = reader[$"{DBNames.InfoSchemeTableCollation}"].ToString(),
-					TableComments = reader[$"{DBNames.InfoSchemeTableComments}"].ToString(),
+					TableCollation = reader[$"{DBNames.InfoSchemeTableCollation}"].ToString(),
+					TableComments = reader[$"{DBNames.InfoSchemeTableComments}"].ToString()
 				};
 
 				tableList.Add( table );
@@ -186,7 +186,6 @@ public class DBCommands
 			using var reader = command.ExecuteReader();
 			while ( reader.Read() )
 			{
-				//var table = _tablesList.FirstOrDefault(t => t.TableName == reader [ DBNames.InfoSchemeColumnTableName ].ToString());
 				ColumnModel Column = new()
 				{
 					ColumnTableId = table?.TableId,

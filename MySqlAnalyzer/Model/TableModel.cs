@@ -7,6 +7,6 @@ public class TableModel
 	public string? TableEngine { get; set; }
 	public string? TableCreation { get; set; }
 	public string? TableUpdated { get; set; }
-	public string? TableCallation { get; set; }
+	public string? TableCollation { get; set; }
 	public string? TableComments { get; set; }
 }

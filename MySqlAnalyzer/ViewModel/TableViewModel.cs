@@ -20,7 +20,7 @@ public partial class TableViewModel : ObservableObject
 	public string? tableUpdated;
 
 	[ObservableProperty]
-	public string? tableCallation;
+	public string? tableCollation;
 
 	[ObservableProperty]
 	public string? tableComments;
