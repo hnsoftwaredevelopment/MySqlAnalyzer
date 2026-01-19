@@ -20,4 +20,261 @@
 
 	<Geometry x:Key="Up">F1 M22.749994,26z M0,0z M11.498047,0.28515625C7.9536594,6.4774251 4.4100393,12.670133 0.8671875,18.863281 2.5058594,18.863281 4.1445312,18.863281 5.7832031,18.863281 7.2526019,16.297897 8.7206118,13.731719 10.189453,11.166016 10.189453,15.973959 10.189453,20.781901 10.189453,25.589844 11.089844,25.589844 11.990234,25.589844 12.890625,25.589844 12.890625,20.830729 12.890625,16.071615 12.890625,11.3125 14.330867,13.829348 15.769874,16.346903 17.210937,18.863281 18.85026,18.863281 20.489583,18.863281 22.128906,18.863281 18.584519,12.671012 15.040899,6.4783039 11.498047,0.28515625z</Geometry>
 	<Geometry x:Key="Down">F1 M22.749994,26z M0,0z M10.105469,0.28515625C10.105469,5.0442708 10.105469,9.8033854 10.105469,14.5625 8.665227,12.045652 7.2262206,9.5280961 5.7851562,7.0117187 4.1458333,7.0117187 2.5065104,7.0117187 0.8671875,7.0117187 4.4115747,13.203988 7.9551946,19.396696 11.498047,25.589844 15.042434,19.397575 18.586054,13.204866 22.128906,7.0117187 20.490234,7.0117187 18.851563,7.0117187 17.212891,7.0117187 15.743492,9.5771019 14.275482,12.143281 12.806641,14.708984 12.806641,9.9010414 12.806641,5.0930988 12.806641,0.28515625 11.90625,0.28515625 11.00586,0.28515625 10.105469,0.28515625z</Geometry>
+
+    <DrawingImage x:Key="DatabaseIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#4CAF50">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="12,6" RadiusX="10" RadiusY="3"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#4CAF50">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="2,6 20,12">
+                            <RectangleGeometry.RadiusX>3</RectangleGeometry.RadiusX>
+                            <RectangleGeometry.RadiusY>3</RectangleGeometry.RadiusY>
+                        </RectangleGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#81C784">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="12,18" RadiusX="10" RadiusY="3"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="TableIcon">
+		<DrawingImage.Drawing>
+			<DrawingGroup>
+				<GeometryDrawing Brush="#2196F3" Geometry="M0,0 L24,0 L24,24 L0,24 Z"/>
+				<GeometryDrawing Brush="White" Geometry="M4,4 L20,4 L20,8 L4,8 Z"/>
+				<GeometryDrawing Brush="White" Geometry="M4,10 L20,10 L20,14 L4,14 Z"/>
+				<GeometryDrawing Brush="White" Geometry="M4,16 L20,16 L20,20 L4,20 Z"/>
+			</DrawingGroup>
+		</DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ViewIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#FF9800">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0 24,24" RadiusX="2" RadiusY="2"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="6,8">
+                                <LineSegment Point="18,8"/>
+                                <LineSegment Point="18,10"/>
+                                <LineSegment Point="6,10"/>
+                            </PathFigure>
+                            <PathFigure StartPoint="6,12">
+                                <LineSegment Point="14,12"/>
+                                <LineSegment Point="14,14"/>
+                                <LineSegment Point="6,14"/>
+                            </PathFigure>
+                            <PathFigure StartPoint="6,16">
+                                <LineSegment Point="10,16"/>
+                                <LineSegment Point="10,18"/>
+                                <LineSegment Point="6,18"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="FunctionIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#E91E63">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="12,2">
+                                <ArcSegment Point="22,12" Size="10,10" SweepDirection="Clockwise"/>
+                                <LineSegment Point="22,22"/>
+                                <LineSegment Point="2,22"/>
+                                <LineSegment Point="2,2"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="8,8">
+                                <LineSegment Point="16,8"/>
+                                <LineSegment Point="12,16"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ProcedureIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#9C27B0">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="12,2">
+                                <ArcSegment Point="22,12" Size="10,10" SweepDirection="Clockwise"/>
+                                <LineSegment Point="22,22"/>
+                                <LineSegment Point="2,22"/>
+                                <LineSegment Point="2,2"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="8,8">
+                                <LineSegment Point="16,12"/>
+                                <LineSegment Point="8,16"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ColumnIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#607D8B">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,4 24,16"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#B0BEC5">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="2,6 20,12"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="8,10">
+                                <LineSegment Point="16,10"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IndexIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#795548">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="4,4 16,16" RadiusX="2" RadiusY="2"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="8,8">
+                                <LineSegment Point="16,8"/>
+                            </PathFigure>
+                            <PathFigure StartPoint="8,12">
+                                <LineSegment Point="14,12"/>
+                            </PathFigure>
+                            <PathFigure StartPoint="8,16">
+                                <LineSegment Point="12,16"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="KeyIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#FFC107">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="14,8">
+                                <ArcSegment Point="14,16" Size="4,4" SweepDirection="Clockwise"/>
+                                <ArcSegment Point="14,8" Size="4,4" SweepDirection="Clockwise"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FFC107">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="12,10 4,4"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FFC107">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="16,12">
+                                <LineSegment Point="20,8"/>
+                                <LineSegment Point="22,10"/>
+                                <LineSegment Point="18,14"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ForeignKeyIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <!-- Main key -->
+                <GeometryDrawing Brush="#2196F3">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="6,8">
+                                <ArcSegment Point="6,16" Size="4,4" SweepDirection="Clockwise"/>
+                                <ArcSegment Point="6,8" Size="4,4" SweepDirection="Clockwise"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#2196F3">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="4,10 4,4"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <!-- Link to other key -->
+                <GeometryDrawing Brush="#2196F3">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="8,12">
+                                <LineSegment Point="14,12"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <!-- Second key -->
+                <GeometryDrawing Brush="#2196F3">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure StartPoint="16,8">
+                                <ArcSegment Point="16,16" Size="4,4" SweepDirection="Clockwise"/>
+                                <ArcSegment Point="16,8" Size="4,4" SweepDirection="Clockwise"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 </ResourceDictionary>

@@ -1,4 +1,4 @@
-﻿namespace MySqlAnalyzer.Model;
+﻿namespace MySqlAnalyzer.Models;
 public class RoutineModel
 {
 	public int? RoutineId { get; set; }

@@ -1,0 +1,190 @@
+﻿<Window x:Class="MySqlAnalyzer.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:MySqlAnalyzer"
+        xmlns:vm="clr-namespace:MySqlAnalyzer.ViewModels"
+        xmlns:models="clr-namespace:MySqlAnalyzer.Models"
+        xmlns:converters="clr-namespace:MySqlAnalyzer.Converters"
+        Title="MySQL Database Analyzer" 
+        Height="600" 
+        Width="900"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <converters:BytesToSizeConverter x:Key="BytesToSizeConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#FF007ACC" Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="📊" FontSize="24" Margin="0,0,10,0"/>
+                <TextBlock Text="MySQL Database Analyzer" 
+                          Foreground="White" 
+                          FontSize="18" 
+                          FontWeight="Bold"
+                          VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content - SIMPELE VERSIE -->
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel: Navigation -->
+            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Database Objects" FontWeight="Bold" Margin="10,10,10,5"/>
+
+                    <TabControl Grid.Row="1" BorderThickness="0">
+                        <TabItem Header="Tables">
+                            <ListBox ItemsSource="{Binding Database.Tables}"
+                                    SelectedItem="{Binding SelectedTable}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="2">
+                                            <TextBlock Text="📋" Margin="0,0,5,0"/>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TabItem>
+
+                        <TabItem Header="Views">
+                            <ListBox ItemsSource="{Binding Database.Views}"
+                                    SelectedItem="{Binding SelectedView}"
+                                    DisplayMemberPath="Name"/>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Border>
+
+            <!-- GridSplitter -->
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"/>
+
+            <!-- Right Panel: Details -->
+            <Border Grid.Column="2" Padding="10">
+                <ContentControl Content="{Binding SelectedObject}">
+                    <ContentControl.Resources>
+                        <!-- Table Details -->
+                        <DataTemplate DataType="{x:Type models:TableModel}">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+                                    <!-- Table Header -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                        <TextBlock Text="📋" FontSize="24" Margin="0,0,10,0"/>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Comment}" FontStyle="Italic" Foreground="Gray"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!-- Table Properties -->
+                                    <Grid Margin="0,0,0,15">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Engine:" FontWeight="Bold" Margin="0,0,5,5"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Engine}" Margin="0,0,10,5"/>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Rows:" FontWeight="Bold" Margin="0,0,5,5"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding TableRows, StringFormat='{}{0:N0}'}" Margin="0,0,0,5"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Collation:" FontWeight="Bold" Margin="0,0,5,0"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Collation}" Margin="0,0,10,0"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Size:" FontWeight="Bold" Margin="0,0,5,0"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="3">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0:0.##} {1}">
+                                                    <Binding Path="DataLength" Converter="{StaticResource BytesToSizeConverter}"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+
+                                    <!-- Columns List -->
+                                    <TextBlock Text="Columns:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <DataGrid ItemsSource="{Binding Columns}" 
+                                             AutoGenerateColumns="False"
+                                             IsReadOnly="True"
+                                             HeadersVisibility="Column">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="120"/>
+                                            <DataGridTextColumn Header="Type" Binding="{Binding ColumnType}" Width="100"/>
+                                            <DataGridCheckBoxColumn Header="Nullable" Binding="{Binding IsNullable}" Width="60"/>
+                                            <DataGridTextColumn Header="Default" Binding="{Binding DefaultValue}" Width="80"/>
+                                            <DataGridTextColumn Header="Key" Binding="{Binding ColumnKey}" Width="50"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </DataTemplate>
+
+                        <!-- View Details -->
+                        <DataTemplate DataType="{x:Type models:ViewModel}">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                        <TextBlock Text="👁️" FontSize="24" Margin="0,0,10,0"/>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+                                            <TextBlock Text="(View)" FontStyle="Italic" Foreground="Gray"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <TextBlock Text="Definition:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox Text="{Binding Definition}" 
+                                             IsReadOnly="True"
+                                             FontFamily="Consolas"
+                                             FontSize="11"
+                                             TextWrapping="Wrap"
+                                             AcceptsReturn="True"
+                                             VerticalScrollBarVisibility="Auto"
+                                             Height="200"/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </Border>
+        </Grid>
+
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusMessage}"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem HorizontalAlignment="Right">
+                <Button Content="Export" 
+                       Command="{Binding ExportCommand}"
+                       Padding="10,3"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

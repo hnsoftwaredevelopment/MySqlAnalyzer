@@ -6,25 +6,27 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>24.10.11.56</AssemblyVersion>
-    <FileVersion>24.10.11.56</FileVersion>
+    <AssemblyVersion>26.1.48.0</AssemblyVersion>
+    <FileVersion>26.1.48.0</FileVersion>
     <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
-    <PackageReference Include="MySql.Data" Version="9.0.0" />
-    <PackageReference Include="MySqlConnector" Version="2.3.7" />
-    <PackageReference Include="Syncfusion.Licensing" Version="27.1.52" />
-    <PackageReference Include="Syncfusion.Pdf.Wpf" Version="27.1.52" />
-    <PackageReference Include="Syncfusion.SfGrid.WPF" Version="27.1.52" />
-    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="27.1.52" />
-    <PackageReference Include="Syncfusion.Themes.Windows11Dark.WPF" Version="27.1.52" />
-    <PackageReference Include="Syncfusion.Themes.Windows11Light.WPF" Version="27.1.52" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
+    <PackageReference Include="MySql.Data" Version="9.5.0" />
+    <PackageReference Include="MySqlConnector" Version="2.5.0" />
+    <PackageReference Include="Syncfusion.Licensing" Version="32.1.23" />
+    <PackageReference Include="Syncfusion.Pdf.Wpf" Version="32.1.23" />
+    <PackageReference Include="Syncfusion.SfGrid.WPF" Version="32.1.23" />
+    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="32.1.23" />
+    <PackageReference Include="Syncfusion.Themes.Windows11Dark.WPF" Version="32.1.23" />
+    <PackageReference Include="Syncfusion.Themes.Windows11Light.WPF" Version="32.1.23" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Resources\Config\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
   <ItemGroup>
