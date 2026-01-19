@@ -24,10 +24,12 @@ public class ColumnModel
     public int DecimalPrecision { get; set; } // For decimal columns
     public int DecimalScale { get; set; } = 0;
     public string? ColumnType { get; set; }
+    public bool IsAutoIncrement => Extra?.ToUpper().Contains ( "AUTO_INCREMENT" ) ?? false;
+    public string? GenerationExpression { get; set; } // For generated columns
+    public bool IsGenerated => !string.IsNullOrEmpty ( GenerationExpression );
 
     // Read-only properties
     public bool IsPrimaryKey => ColumnKey == "PRI";
     public bool IsUniqueKey => ColumnKey == "UNI";
     public bool IsForeignKey => ColumnKey == "MUL";
-    public bool IsAutoIncrement => Extra?.ToLower().Contains("auto_increment") ?? false;
 }

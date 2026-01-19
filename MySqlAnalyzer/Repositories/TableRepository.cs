@@ -77,7 +77,8 @@ public class TableRepository : BaseRepository
                     COLUMN_TYPE,
                     COLUMN_KEY,
                     EXTRA,
-                    COLUMN_COMMENT
+                    COLUMN_COMMENT,
+                    GENERATION_EXPRESSION
                 FROM information_schema.COLUMNS 
                 WHERE TABLE_SCHEMA = '{databaseName}' 
                 AND TABLE_NAME = '{tableName}'
@@ -105,7 +106,8 @@ public class TableRepository : BaseRepository
                 ColumnType = GetStringSafe(row, "COLUMN_TYPE") ?? string.Empty,
                 ColumnKey = GetStringSafe(row, "COLUMN_KEY"),
                 Extra = GetStringSafe(row, "EXTRA"),
-                Comment = GetStringSafe(row, "COLUMN_COMMENT")
+                Comment = GetStringSafe(row, "COLUMN_COMMENT"),
+                GenerationExpression = GetStringSafe(row, "GENERATION_EXPRESSION")
                 };
 
             columns.Add ( column );

@@ -7,11 +7,11 @@ namespace MySqlAnalyzer.Models
         public string? Name { get; set; }
         public string? DefaultCharacterSet { get; set; }
         public string? DefaultCollation { get; set; }
-        public List<TableModel> Tables { get; set; } = new List<TableModel>();
-        public List<ViewModel> Views { get; set; } = new List<ViewModel>();
-        public List<StoredProcedureModel> StoredProcedures { get; set; } = new List<StoredProcedureModel>();
-        public List<FunctionModel> Functions { get; set; } = new List<FunctionModel>();
-        public List<TriggerModel> Triggers { get; set; } = new List<TriggerModel>();
+        public List<TableModel> Tables { get; set; } = [];
+        public List<ViewModel> Views { get; set; } = [];
+        public List<StoredProcedureModel> StoredProcedures { get; set; } = [];
+        public List<FunctionModel> Functions { get; set; } = [];
+        public List<TriggerModel> Triggers { get; set; } = [];
 
         // Read-only properties voor statistieken
         public int TotalTables => Tables.Count;

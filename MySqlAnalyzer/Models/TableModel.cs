@@ -9,6 +9,7 @@ public class TableModel : DatabaseObject
     public long DataLength { get; set; } // in bytes
     public long IndexLength { get; set; } // in bytes
     public string? Collation { get; set; }
+    public string? CharachterSet { get; set; }
     public DateTime? UpdateTime { get; set; }
     public string? CreateScript { get; set; }
 
@@ -22,6 +23,7 @@ public class TableModel : DatabaseObject
     public long TotalSize => DataLength + IndexLength;
     public bool HasPrimaryKey => Indexes.Exists(i => i.IsPrimary);
     public bool HasForeignKeys => ForeignKeys.Count > 0;
+
 
     // Method om CREATE script te genereren
     public void GenerateCreateScript()

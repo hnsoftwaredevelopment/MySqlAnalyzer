@@ -5,8 +5,8 @@
         xmlns:vm="clr-namespace:MySqlAnalyzer.ViewModels"
         xmlns:models="clr-namespace:MySqlAnalyzer.Models"
         xmlns:converters="clr-namespace:MySqlAnalyzer.Converters"
-        Title="MySQL Database Analyzer" 
-        Height="600" 
+        Title="MySQL Database Analyzer"
+        Height="600"
         Width="900"
         WindowStartupLocation="CenterScreen">
 
@@ -40,11 +40,11 @@
         <Border Grid.Row="0" Background="#FF007ACC" Padding="10">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="📊" FontSize="24" Margin="0,0,10,0"/>
-                <TextBlock Text="MySQL Database Analyzer" 
-                          Foreground="White" 
-                          FontSize="18" 
-                          FontWeight="Bold"
-                          VerticalAlignment="Center"/>
+                <TextBlock Text="MySQL Database Analyzer"
+                           Foreground="White"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
             </StackPanel>
         </Border>
 
@@ -70,15 +70,15 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" 
-                              Text="Select Database:" 
-                              VerticalAlignment="Center" 
-                              Margin="0,0,10,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Select Database:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,5"/>
 
                     <ComboBox Grid.Row="0" Grid.Column="1"
-                             ItemsSource="{Binding AvailableDatabases}"
-                             SelectedItem="{Binding SelectedDatabase, Mode=TwoWay}"
-                             Margin="0,0,10,5"
+                              ItemsSource="{Binding AvailableDatabases}"
+                              SelectedItem="{Binding SelectedDatabase, Mode=TwoWay}"
+                              Margin="0,0,10,5"
                               VerticalContentAlignment="Center">
                         <ComboBox.Style>
                             <Style TargetType="ComboBox">
@@ -94,20 +94,20 @@
 
                     <!-- Load Button -->
                     <Button Grid.Row="0" Grid.Column="2"
-                           Content="Load"
-                           Command="{Binding LoadDatabaseCommand}"
-                           Style="{StaticResource ActionButtonStyle}"/>
+                            Content="Load"
+                            Command="{Binding LoadDatabaseCommand}"
+                            Style="{StaticResource ActionButtonStyle}"/>
 
                     <!-- Refresh Button -->
                     <Button Grid.Row="0" Grid.Column="3"
-                           Content="Refresh"
-                           Command="{Binding RefreshDatabasesCommand}"
-                           Style="{StaticResource ActionButtonStyle}"/>
+                            Content="Refresh"
+                            Command="{Binding RefreshDatabasesCommand}"
+                            Style="{StaticResource ActionButtonStyle}"/>
 
                     <!-- Loading indicator -->
                     <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
-                               Orientation="Horizontal"
-                               Margin="0,5,0,0">
+                                Orientation="Horizontal"
+                                Margin="0,5,0,0">
                         <StackPanel.Style>
                             <Style TargetType="StackPanel">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -153,17 +153,11 @@
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Database:" FontWeight="Bold" Margin="0,0,5,5"/>
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Database.Name}" Margin="0,0,10,5"/>
 
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Size:" FontWeight="Bold" Margin="0,0,5,5"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}">
-                                <Binding Path="DatabaseSize" Converter="{StaticResource BytesToSizeConverter}"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Contents:" FontWeight="Bold" Margin="0,0,5,0"/>
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DatabaseSummary}" Margin="0,0,10,0"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="Collation:" FontWeight="Bold" Margin="0,0,5,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Database.DefaultCollation}"/>
                 </Grid>
             </GroupBox>
 
@@ -188,7 +182,7 @@
                         <TabControl Grid.Row="1" BorderThickness="0">
                             <TabItem Header="Tables">
                                 <ListBox ItemsSource="{Binding Database.Tables}"
-                                        SelectedItem="{Binding SelectedTable}">
+                                         SelectedItem="{Binding SelectedTable}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="2">
@@ -202,7 +196,7 @@
 
                             <TabItem Header="Views">
                                 <ListBox ItemsSource="{Binding Database.Views}"
-                                        SelectedItem="{Binding SelectedView}">
+                                         SelectedItem="{Binding SelectedView}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="2">
@@ -248,13 +242,14 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Engine:" FontWeight="Bold" Margin="0,0,5,5"/>
                                             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Engine}" Margin="0,0,10,5"/>
 
-                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Rows:" FontWeight="Bold" Margin="0,0,5,5"/>
-                                            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding TableRows, StringFormat='{}{0:N0}'}" Margin="0,0,0,5"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Character Set:" FontWeight="Bold" Margin="0,0,5,5"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding CharacterSet}" Margin="0,0,0,5"/>
 
                                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Collation:" FontWeight="Bold" Margin="0,0,5,5"/>
                                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Collation}" Margin="0,0,10,5"/>
@@ -279,24 +274,51 @@
                                         <TabControl>
                                             <!-- Columns Tab -->
                                             <TabItem Header="Columns">
-                                                <DataGrid ItemsSource="{Binding Columns}" 
-                                                     AutoGenerateColumns="False"
-                                                     IsReadOnly="True"
-                                                     HeadersVisibility="Column"
-                                                     CanUserSortColumns="True">
+                                                <DataGrid ItemsSource="{Binding Columns}"
+                                                          AutoGenerateColumns="False"
+                                                          IsReadOnly="True"
+                                                          HeadersVisibility="Column"
+                                                          CanUserSortColumns="True">
                                                     <DataGrid.Columns>
                                                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
+
                                                         <DataGridTextColumn Header="Data Type" Binding="{Binding ColumnType}" Width="120"/>
+
                                                         <DataGridCheckBoxColumn Header="Nullable" Binding="{Binding IsNullable}" Width="70"/>
-                                                        <DataGridTextColumn Header="Default" Binding="{Binding DefaultValue}" Width="100"/>
-                                                        <DataGridTextColumn Header="Key" Binding="{Binding ColumnKey}" Width="60">
+
+                                                        <DataGridCheckBoxColumn Header="Auto Inc" Binding="{Binding IsAutoIncrement, Mode=OneWay}" Width="70" IsReadOnly="True">
+                                                            <DataGridCheckBoxColumn.CellStyle>
+                                                                <Style TargetType="DataGridCell">
+                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                </Style>
+                                                            </DataGridCheckBoxColumn.CellStyle>
+                                                        </DataGridCheckBoxColumn>
+
+                                                        <DataGridTextColumn Header="Key" Binding="{Binding ColumnKey}" Width="80">
                                                             <DataGridTextColumn.CellStyle>
                                                                 <Style TargetType="DataGridCell">
                                                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                                                 </Style>
                                                             </DataGridTextColumn.CellStyle>
                                                         </DataGridTextColumn>
+
+                                                        <DataGridTextColumn Header="Default" Binding="{Binding DefaultValue}" Width="100"/>
+
                                                         <DataGridTextColumn Header="Extra" Binding="{Binding Extra}" Width="100"/>
+
+                                                        <DataGridTextColumn Header="Charset" Binding="{Binding CharacterSet}" Width="80"/>
+
+                                                        <DataGridTextColumn Header="Collation" Binding="{Binding Collation}" Width="100"/>
+
+                                                        <DataGridTextColumn Header="Expression" Binding="{Binding GenerationExpression}" Width="150">
+                                                            <DataGridTextColumn.CellStyle>
+                                                                <Style TargetType="DataGridCell">
+                                                                    <Setter Property="FontStyle" Value="Italic"/>
+                                                                    <Setter Property="Foreground" Value="Gray" />
+                                                                </Style>
+                                                            </DataGridTextColumn.CellStyle>
+                                                        </DataGridTextColumn>
+
                                                         <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="*"/>
                                                     </DataGrid.Columns>
                                                 </DataGrid>
@@ -304,9 +326,9 @@
 
                                             <!-- Indexes Tab -->
                                             <TabItem Header="Indexes">
-                                                <DataGrid ItemsSource="{Binding Indexes}" 
-                                                     AutoGenerateColumns="False"
-                                                     IsReadOnly="True">
+                                                <DataGrid ItemsSource="{Binding Indexes}"
+                                                          AutoGenerateColumns="False"
+                                                          IsReadOnly="True">
                                                     <DataGrid.Columns>
                                                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
                                                         <DataGridCheckBoxColumn Header="Primary" Binding="{Binding IsPrimary}" Width="60"/>
@@ -331,9 +353,9 @@
 
                                             <!-- Foreign Keys Tab -->
                                             <TabItem Header="Foreign Keys">
-                                                <DataGrid ItemsSource="{Binding ForeignKeys}" 
-                                                     AutoGenerateColumns="False"
-                                                     IsReadOnly="True">
+                                                <DataGrid ItemsSource="{Binding ForeignKeys}"
+                                                          AutoGenerateColumns="False"
+                                                          IsReadOnly="True">
                                                     <DataGrid.Columns>
                                                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
                                                         <DataGridTextColumn Header="Referenced Table" Binding="{Binding ReferencedTable}" Width="150"/>
@@ -357,26 +379,26 @@
                                             <!-- SQL Tab -->
                                             <TabItem Header="SQL">
                                                 <DockPanel>
-                                                    <Button DockPanel.Dock="Top" 
-                                                        Content="Copy to Clipboard" 
-                                                        Margin="0,0,0,5"
-                                                        Click="CopySqlToClipboard_Click"/>
-                                                    
-                                                    <TextBox x:Name="SqlTextBox" 
-                                                         Text="{Binding CreateScript, Mode=OneWay}" 
-                                                         IsReadOnly="True"
-                                                         FontFamily="Consolas"
-                                                         FontSize="11"
-                                                         TextWrapping="NoWrap"
-                                                         VerticalScrollBarVisibility="Auto"
-                                                         HorizontalScrollBarVisibility="Auto"/>
+                                                    <Button DockPanel.Dock="Top"
+                                                            Content="Copy to Clipboard"
+                                                            Margin="0,0,0,5"
+                                                            Click="CopySqlToClipboard_Click"/>
+
+                                                    <TextBox x:Name="SqlTextBox"
+                                                             Text="{Binding CreateScript, Mode=OneWay}"
+                                                             IsReadOnly="True"
+                                                             FontFamily="Consolas"
+                                                             FontSize="11"
+                                                             TextWrapping="NoWrap"
+                                                             VerticalScrollBarVisibility="Auto"
+                                                             HorizontalScrollBarVisibility="Auto"/>
                                                 </DockPanel>
                                             </TabItem>
                                         </TabControl>
                                     </StackPanel>
                                 </ScrollViewer>
                             </DataTemplate>
-                            
+
                             <!-- View Details Template -->
                             <DataTemplate DataType="{x:Type models:ViewModel}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -390,7 +412,7 @@
                                         </StackPanel>
 
                                         <TextBlock Text="Definition:" FontWeight="Bold" Margin="0,0,0,5"/>
-                                        <TextBox Text="{Binding Definition}" 
+                                        <TextBox Text="{Binding Definition}"
                                                  IsReadOnly="True"
                                                  FontFamily="Consolas"
                                                  FontSize="11"
@@ -414,11 +436,11 @@
             </StatusBarItem>
             <Separator/>
             <StatusBarItem HorizontalAlignment="Right">
-                <Button Content="Export" 
-                       Command="{Binding ExportCommand}"
-                       Style="{StaticResource ActionButtonStyle}"
-                       Margin="5,0"
-                       Padding="10,3"/>
+                <Button Content="Export"
+                        Command="{Binding ExportCommand}"
+                        Style="{StaticResource ActionButtonStyle}"
+                        Margin="5,0"
+                        Padding="10,3"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>
