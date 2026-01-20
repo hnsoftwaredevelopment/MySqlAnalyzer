@@ -14,6 +14,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Icons/Icons.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/TabControlSyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Converters -->
@@ -181,7 +182,7 @@
                         <TextBlock Text="Database Objects" FontWeight="Bold" Margin="10,10,10,5"/>
 
                         <TabControl Grid.Row="1" BorderThickness="0">
-                            <TabItem Header="Tables">
+                            <TabItem Style="{DynamicResource TableTabStyle}" Header="Tables">
                                 <ListBox ItemsSource="{Binding Database.Tables}"
                                          SelectedItem="{Binding SelectedTable}">
                                     <ListBox.ItemTemplate>
@@ -195,7 +196,7 @@
                                 </ListBox>
                             </TabItem>
 
-                            <TabItem Header="Views">
+                            <TabItem Style="{DynamicResource ViewTabStyle}"  Header="Views">
                                 <ListBox ItemsSource="{Binding Database.Views}"
                                          SelectedItem="{Binding SelectedView}">
                                     <ListBox.ItemTemplate>
@@ -271,7 +272,7 @@
                                         <!--#region Tab Control for different sections of Tables -->
                                         <TabControl>
                                             <!--#region Columns Tab -->
-                                            <TabItem Header="Columns">
+                                            <TabItem Style="{StaticResource ColumnsTabStyle}" Header="Columns">
                                                 <DataGrid ItemsSource="{Binding Columns}"
                                                           AutoGenerateColumns="False"
                                                           IsReadOnly="True"
@@ -309,7 +310,7 @@
                                                                         </Image>
 
                                                                         <!-- Unique Key -->
-                                                                        <Image Source="{StaticResource PrimaryKeyIcon}" Height="14" Margin="1">
+                                                                        <Image Source="{StaticResource UniqueKeyIcon}" Height="14" Margin="1">
                                                                             <Image.Visibility>
                                                                                 <Binding Path="ColumnKey">
                                                                                     <Binding.Converter>
@@ -321,7 +322,7 @@
                                                                         </Image>
 
                                                                         <!-- Foreign Key -->
-                                                                        <Image Source="{StaticResource PrimaryKeyIcon}" Height="14" Margin="1">
+                                                                        <Image Source="{StaticResource ForeignKeyIcon}" Height="14" Margin="1">
                                                                             <Image.Visibility>
                                                                                 <Binding Path="ColumnKey">
                                                                                     <Binding.Converter>
@@ -360,7 +361,7 @@
                                             <!--#endregion-->
 
                                             <!--#region Indexes Tab -->
-                                            <TabItem Header="Indexes">
+                                            <TabItem Style="{StaticResource IndexesTabStyle}" Header="Indexes">
                                                 <DataGrid ItemsSource="{Binding Indexes}"
                                                           AutoGenerateColumns="False"
                                                           IsReadOnly="True">
@@ -388,7 +389,7 @@
                                             <!--#endregion-->
 
                                             <!--#region Foreign Keys Tab -->
-                                            <TabItem Header="Foreign Keys">
+                                            <TabItem Style="{StaticResource ForeignKeyTabStyle}" Header="Foreign Keys">
                                                 <DataGrid ItemsSource="{Binding ForeignKeys}"
                                                           AutoGenerateColumns="False"
                                                           IsReadOnly="True">
@@ -414,7 +415,7 @@
                                             <!--#endregion-->
 
                                             <!--#region SQL Tab -->
-                                            <TabItem Header="SQL">
+                                            <TabItem Style="{StaticResource SqlTabStyle}" Header="SQL">
                                                 <DockPanel>
                                                     <Button DockPanel.Dock="Top"
                                                             Content="Copy to Clipboard"

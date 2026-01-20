@@ -26,7 +26,7 @@ public class MainViewModel : BaseViewModel
     private FunctionModel? _selectedFunction;
     private DatabaseObject? _selectedObject;
     private ExportService? _exportService;
-    private ICommand _exportHtmlCommand;
+    private ICommand? _exportHtmlCommand;
 
     public ICommand ExportHtmlCommand => _exportHtmlCommand ??= new RelayCommand ( ExportToHtml );
 
@@ -135,10 +135,6 @@ public class MainViewModel : BaseViewModel
 
                 // Also update commands
                 RefreshCommandsCanExecute ();
-
-                // Debug
-                Debug.WriteLine ( $"[DEBUG] Database set to {( value != null ? value.Name : "null" )}" );
-                Debug.WriteLine ( $"[DEBUG] HasDatabase should be: {HasDatabase}" );
                 }
             }
         }
@@ -265,40 +261,31 @@ public class MainViewModel : BaseViewModel
         {
         try
             {
-            Debug.WriteLine ( "[DEBUG] Starting LoadDatabasesAsync()" );
             StatusMessage = "Loading database list...";
 
             AvailableDatabases.Clear ();
 
-            Debug.WriteLine ( "[DEBUG] Calling GetAvailableDatabasesAsync()" );
             var databases = await _databaseService.GetAvailableDatabasesAsync();
-            Debug.WriteLine ( $"[DEBUG] Got {databases.Count} databases" );
 
             foreach ( var db in databases.OrderBy ( d => d ) )
                 {
                 AvailableDatabases.Add ( db );
-                Debug.WriteLine ( $"[DEBUG] Added database: {db}" );
                 }
 
             if ( AvailableDatabases.Count > 0 )
                 {
                 SelectedDatabase = AvailableDatabases [ 0 ];
-                Debug.WriteLine ( $"[DEBUG] Selected database: {SelectedDatabase}" );
                 }
             else
                 {
-                Debug.WriteLine ( "[DEBUG] No databases found" );
+                    // No database found
                 }
 
             StatusMessage = $"Found {AvailableDatabases.Count} databases";
-            Debug.WriteLine ( "[DEBUG] LoadDatabasesAsync completed" );
             }
         catch ( Exception ex )
             {
-            Debug.WriteLine ( $"[DEBUG] Error in LoadDatabasesAsync: {ex.Message}" );
-            Debug.WriteLine ( $"[DEBUG] Stack trace: {ex.StackTrace}" );
-
-            StatusMessage = $"Error loading databases: {ex.Message}";
+                StatusMessage = $"Error loading databases: {ex.Message}";
             }
         }
 
@@ -353,9 +340,12 @@ public class MainViewModel : BaseViewModel
 
             if ( saveDialog.ShowDialog () == true )
                 {
-                var html = _exportService.ExportToHtml(Database);
-                _exportService.ExportToFile ( html, saveDialog.FileName );
-                StatusMessage = $"Database exported to {saveDialog.FileName}.";
+                if ( _exportService != null )
+                {
+                    var html = _exportService.ExportToHtml(Database);
+                    _exportService.ExportToFile ( html, saveDialog.FileName );
+                    StatusMessage = $"Database exported to {saveDialog.FileName}.";
+                }
                 }
             }
         catch ( Exception ex )

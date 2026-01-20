@@ -22,7 +22,7 @@ public class SomeClass
     public void SomeMethod()
     {
         var dictionary = new System.Collections.Generic.Dictionary<string, string>();
-        string someKey = null;
+        string? someKey = null;
 
         // Instead of:
         // if (dictionary.ContainsKey(someKey))
