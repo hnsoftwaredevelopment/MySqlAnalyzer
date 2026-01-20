@@ -19,6 +19,7 @@
             <!-- Converters -->
             <converters:BytesToSizeConverter x:Key="BytesToSizeConverter"/>
             <converters:IndexColumnsConverter x:Key="IndexColumnsConverter"/>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
 
             <!-- Simple Style for buttons -->
             <Style x:Key="ActionButtonStyle" TargetType="Button">
@@ -248,9 +249,6 @@
                                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Engine:" FontWeight="Bold" Margin="0,0,5,5"/>
                                             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Engine}" Margin="0,0,10,5"/>
 
-                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Character Set:" FontWeight="Bold" Margin="0,0,5,5"/>
-                                            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding CharacterSet}" Margin="0,0,0,5"/>
-
                                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Collation:" FontWeight="Bold" Margin="0,0,5,5"/>
                                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Collation}" Margin="0,0,10,5"/>
 
@@ -270,9 +268,9 @@
                                             <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Updated, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,0,0"/>
                                         </Grid>
 
-                                        <!-- Tab Control for different sections -->
+                                        <!--#region Tab Control for different sections of Tables -->
                                         <TabControl>
-                                            <!-- Columns Tab -->
+                                            <!--#region Columns Tab -->
                                             <TabItem Header="Columns">
                                                 <DataGrid ItemsSource="{Binding Columns}"
                                                           AutoGenerateColumns="False"
@@ -294,13 +292,49 @@
                                                             </DataGridCheckBoxColumn.CellStyle>
                                                         </DataGridCheckBoxColumn>
 
-                                                        <DataGridTextColumn Header="Key" Binding="{Binding ColumnKey}" Width="80">
-                                                            <DataGridTextColumn.CellStyle>
-                                                                <Style TargetType="DataGridCell">
-                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                                </Style>
-                                                            </DataGridTextColumn.CellStyle>
-                                                        </DataGridTextColumn>
+                                                        <DataGridTemplateColumn Header="Key" Width="60">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                                        <!-- Primary Key -->
+                                                                        <Image Source="{StaticResource PrimaryKeyIcon}" Height="14" Margin="1">
+                                                                            <Image.Visibility>
+                                                                                <Binding Path="ColumnKey">
+                                                                                    <Binding.Converter>
+                                                                                        <converters:StringToVisibilityConverter/>
+                                                                                    </Binding.Converter>
+                                                                                    <Binding.ConverterParameter>PRI</Binding.ConverterParameter>
+                                                                                </Binding>
+                                                                            </Image.Visibility>
+                                                                        </Image>
+
+                                                                        <!-- Unique Key -->
+                                                                        <Image Source="{StaticResource PrimaryKeyIcon}" Height="14" Margin="1">
+                                                                            <Image.Visibility>
+                                                                                <Binding Path="ColumnKey">
+                                                                                    <Binding.Converter>
+                                                                                        <converters:StringToVisibilityConverter/>
+                                                                                    </Binding.Converter>
+                                                                                    <Binding.ConverterParameter>UNI</Binding.ConverterParameter>
+                                                                                </Binding>
+                                                                            </Image.Visibility>
+                                                                        </Image>
+
+                                                                        <!-- Foreign Key -->
+                                                                        <Image Source="{StaticResource PrimaryKeyIcon}" Height="14" Margin="1">
+                                                                            <Image.Visibility>
+                                                                                <Binding Path="ColumnKey">
+                                                                                    <Binding.Converter>
+                                                                                        <converters:StringToVisibilityConverter/>
+                                                                                    </Binding.Converter>
+                                                                                    <Binding.ConverterParameter>MUL</Binding.ConverterParameter>
+                                                                                </Binding>
+                                                                            </Image.Visibility>
+                                                                        </Image>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
 
                                                         <DataGridTextColumn Header="Default" Binding="{Binding DefaultValue}" Width="100"/>
 
@@ -323,8 +357,9 @@
                                                     </DataGrid.Columns>
                                                 </DataGrid>
                                             </TabItem>
+                                            <!--#endregion-->
 
-                                            <!-- Indexes Tab -->
+                                            <!--#region Indexes Tab -->
                                             <TabItem Header="Indexes">
                                                 <DataGrid ItemsSource="{Binding Indexes}"
                                                           AutoGenerateColumns="False"
@@ -350,8 +385,9 @@
                                                     </DataGrid.Columns>
                                                 </DataGrid>
                                             </TabItem>
+                                            <!--#endregion-->
 
-                                            <!-- Foreign Keys Tab -->
+                                            <!--#region Foreign Keys Tab -->
                                             <TabItem Header="Foreign Keys">
                                                 <DataGrid ItemsSource="{Binding ForeignKeys}"
                                                           AutoGenerateColumns="False"
@@ -375,8 +411,9 @@
                                                     </DataGrid.Columns>
                                                 </DataGrid>
                                             </TabItem>
+                                            <!--#endregion-->
 
-                                            <!-- SQL Tab -->
+                                            <!--#region SQL Tab -->
                                             <TabItem Header="SQL">
                                                 <DockPanel>
                                                     <Button DockPanel.Dock="Top"
@@ -394,7 +431,9 @@
                                                              HorizontalScrollBarVisibility="Auto"/>
                                                 </DockPanel>
                                             </TabItem>
+                                            <!--#endregion-->
                                         </TabControl>
+                                        <!--#endregion-->
                                     </StackPanel>
                                 </ScrollViewer>
                             </DataTemplate>
