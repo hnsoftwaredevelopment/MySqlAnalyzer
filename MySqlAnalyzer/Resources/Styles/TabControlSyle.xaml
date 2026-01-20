@@ -8,11 +8,11 @@
 
     <!-- BackGroundColours for tabs -->
     <SolidColorBrush x:Key="TableTabBackground" Color="#D6DFF9"/>
-    <SolidColorBrush x:Key="ViewTabBackground" Color="#D9F2AA"/>
-    <SolidColorBrush x:Key="ColumnsTabBackground" Color="LightCyan"/>
-    <SolidColorBrush x:Key="IndexesTabBackground" Color="LightGoldenrodYellow"/>
-    <SolidColorBrush x:Key="SqlTabBackground" Color="Orange"/>
-    <SolidColorBrush x:Key="ForeignKeyTabBackground" Color="#E0F7FA"/>
+    <SolidColorBrush x:Key="ViewTabBackground" Color="#FAE8C8"/>
+    <SolidColorBrush x:Key="ColumnsTabBackground" Color="#D6DFF9"/>
+    <SolidColorBrush x:Key="IndexesTabBackground" Color="#D2FFD2"/>
+    <SolidColorBrush x:Key="SqlTabBackground" Color="#EC9999"/>
+    <SolidColorBrush x:Key="ForeignKeyTabBackground" Color="#FED5AF"/>
 
     <!-- Default Style for all tabs -->
     <Style TargetType="TabItem">
@@ -48,12 +48,11 @@
             <Setter.Value>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <ContentControl x:Name="IconControl"
-                                        Content="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=(extensions:TabItemExtensions.TabIcon)}"
-                                        Width="16"
-                                        Height="16"
-                                        Margin="0,0,5,0"
-                                        VerticalAlignment="Center"/>
+                        <Image Source="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=(extensions:TabItemExtensions.TabIcon)}"
+                               Width="16"
+                               Height="16"
+                               Margin="0,0,5,0"
+                               VerticalAlignment="Center"/>
                         <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=(extensions:TabItemExtensions.TabText)}"
                                    VerticalAlignment="Center"/>
                     </StackPanel>
@@ -66,14 +65,14 @@
     <Style x:Key="TableTabStyle" TargetType="TabItem" BasedOn="{StaticResource IconTabItemStyle}">
         <Setter Property="Background" Value="{StaticResource TableTabBackground}"/>
         <Setter Property="extensions:TabItemExtensions.TabIcon" Value="{StaticResource TableIcon}"/>
-        <Setter Property="extensions:TabItemExtensions.TabText" Value="Columns"/>
+        <Setter Property="extensions:TabItemExtensions.TabText" Value="Tables"/>
     </Style>
 
     <!-- Specific style for View tab -->
     <Style x:Key="ViewTabStyle" TargetType="TabItem" BasedOn="{StaticResource IconTabItemStyle}">
         <Setter Property="Background" Value="{StaticResource ViewTabBackground}"/>
         <Setter Property="extensions:TabItemExtensions.TabIcon" Value="{StaticResource ViewIcon}"/>
-        <Setter Property="extensions:TabItemExtensions.TabText" Value="Columns"/>
+        <Setter Property="extensions:TabItemExtensions.TabText" Value="Views"/>
     </Style>
 
 
@@ -95,7 +94,7 @@
     <Style x:Key="ForeignKeyTabStyle" TargetType="TabItem" BasedOn="{StaticResource IconTabItemStyle}">
         <Setter Property="Background" Value="{StaticResource IndexesTabBackground}"/>
         <Setter Property="extensions:TabItemExtensions.TabIcon" Value="{StaticResource IndexIcon}"/>
-        <Setter Property="extensions:TabItemExtensions.TabText" Value="Indexes"/>
+        <Setter Property="extensions:TabItemExtensions.TabText" Value="Foreign Keys"/>
     </Style>
 
 
@@ -103,7 +102,7 @@
     <Style x:Key="SqlTabStyle" TargetType="TabItem" BasedOn="{StaticResource IconTabItemStyle}">
         <Setter Property="Background" Value="{StaticResource SqlTabBackground}"/>
         <Setter Property="extensions:TabItemExtensions.TabIcon" Value="{StaticResource SqlIcon}"/>
-        <Setter Property="extensions:TabItemExtensions.TabText" Value="Tables"/>
+        <Setter Property="extensions:TabItemExtensions.TabText" Value="SQL"/>
     </Style>
 
 </ResourceDictionary>
