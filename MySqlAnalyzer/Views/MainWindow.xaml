@@ -324,11 +324,10 @@
                                                                         <!-- Foreign Key -->
                                                                         <Image Source="{StaticResource ForeignKeyIcon}" Height="14" Margin="1">
                                                                             <Image.Visibility>
-                                                                                <Binding Path="ColumnKey">
+                                                                                <Binding Path="IsForeignKey">
                                                                                     <Binding.Converter>
-                                                                                        <converters:StringToVisibilityConverter/>
+                                                                                        <converters:BooleanToVisibilityConverter/>
                                                                                     </Binding.Converter>
-                                                                                    <Binding.ConverterParameter>MUL</Binding.ConverterParameter>
                                                                                 </Binding>
                                                                             </Image.Visibility>
                                                                         </Image>

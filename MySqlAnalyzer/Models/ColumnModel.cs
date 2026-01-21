@@ -1,4 +1,6 @@
-﻿namespace MySqlAnalyzer.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace MySqlAnalyzer.Models;
 
 public class ColumnModel
 {
@@ -24,12 +26,37 @@ public class ColumnModel
     public int DecimalPrecision { get; set; } // For decimal columns
     public int DecimalScale { get; set; } = 0;
     public string? ColumnType { get; set; }
-    public bool IsAutoIncrement => Extra?.ToUpper().Contains ( "AUTO_INCREMENT" ) ?? false;
+    public bool IsAutoIncrement => Extra?.ToUpper ().Contains ( "AUTO_INCREMENT" ) ?? false;
     public string? GenerationExpression { get; set; } // For generated columns
     public bool IsGenerated => !string.IsNullOrEmpty ( GenerationExpression );
-
-    // Read-only properties
     public bool IsPrimaryKey => ColumnKey == "PRI";
     public bool IsUniqueKey => ColumnKey == "UNI";
-    public bool IsForeignKey => ColumnKey == "MUL";
+    public bool IsForeignKey { get; set; }
+    public string? ForeignKeyName { get; set; }
+    public string? ReferencedTable { get; set; }
+    public string? ReferencedColumn { get; set; }
+    public string? UpdateRule { get; set; }
+    public string? DeleteRule { get; set; }
+
+    // Bereken property voor UI
+    [JsonIgnore]
+    public string KeyTypeDisplay
+    {
+        get
+        {
+            if ( ColumnKey?.Contains ( "PRI" ) == true )
+                return "Primary Key";
+
+            if ( IsForeignKey && !string.IsNullOrEmpty ( ReferencedTable ) )
+                return $"Foreign Key → {ReferencedTable}.{ReferencedColumn}";
+
+            if ( ColumnKey?.Contains ( "UNI" ) == true )
+                return "Unique";
+
+            if ( ColumnKey?.Contains ( "MUL" ) == true )
+                return "Indexed";
+
+            return string.Empty;
+        }
+    }
 }
