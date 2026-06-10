@@ -1,19 +1,12 @@
-﻿using MySql.Data.MySqlClient;
-
-using MySqlAnalyzer.Models;
-
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace MySqlAnalyzer.Repositories
 {
     public class DatabaseRepository : BaseRepository
     {
-        public DatabaseRepository(string connectionString) : base(connectionString) { }
+        public DatabaseRepository ( string connectionString ) : base ( connectionString ) { }
 
-        public DatabaseModel GetCompleteDatabase(string databaseName)
+        public async Task<DatabaseModel> GetCompleteDatabase ( string databaseName )
         {
             var database = new DatabaseModel
             {
@@ -33,106 +26,106 @@ namespace MySqlAnalyzer.Repositories
             var triggerRepo = new TriggerRepository(_connectionString);
 
             // Tables
-            database.Tables = tableRepo.GetTables(databaseName);
-            foreach (var table in database.Tables)
+            database.Tables = tableRepo.GetTables ( databaseName );
+            foreach ( var table in database.Tables )
             {
-                if (table.Name != null)
+                if ( table.Name != null )
                 {
-                    table.Columns = tableRepo.GetTableColumns(databaseName, table.Name);
-                    table.Indexes = tableRepo.GetTableIndexes(databaseName, table.Name);
-                    table.ForeignKeys = tableRepo.GetTableForeignKeys(databaseName, table.Name);
+                    table.Columns = tableRepo.GetTableColumns ( databaseName, table.Name );
+                    table.Indexes = tableRepo.GetTableIndexes ( databaseName, table.Name );
+                    table.ForeignKeys = tableRepo.GetTableForeignKeys ( databaseName, table.Name );
                 }
             }
 
             // Views
-            database.Views = viewRepo.GetViews(databaseName);
-            foreach (var view in database.Views)
+            database.Views = await viewRepo.GetViewsAsync ( databaseName );
+            foreach ( var view in database.Views )
             {
-                if(view.Name != null)
-                    view.Columns = viewRepo.GetViewColumns(databaseName, view.Name);
+                if ( view.Name != null )
+                    view.Columns = await viewRepo.GetViewColumnsAsync ( databaseName, view.Name );
             }
 
             // Stored Procedures
-            database.StoredProcedures = procedureRepo.GetStoredProcedures(databaseName);
-            foreach (var procedure in database.StoredProcedures)
+            database.StoredProcedures = procedureRepo.GetStoredProcedures ( databaseName );
+            foreach ( var procedure in database.StoredProcedures )
             {
-                if(procedure.Name != null)
-                    procedure.Parameters = procedureRepo.GetProcedureParameters(databaseName, procedure.Name);
+                if ( procedure.Name != null )
+                    procedure.Parameters = procedureRepo.GetProcedureParameters ( databaseName, procedure.Name );
             }
 
             // Functions
-            database.Functions = functionRepo.GetFunctions(databaseName);
-            foreach (var function in database.Functions)
+            database.Functions = functionRepo.GetFunctions ( databaseName );
+            foreach ( var function in database.Functions )
             {
-                if (function.Name != null)
-                    function.Parameters = functionRepo.GetFunctionParameters(databaseName, function.Name);
+                if ( function.Name != null )
+                    function.Parameters = functionRepo.GetFunctionParameters ( databaseName, function.Name );
             }
 
             // Triggers
-            database.Triggers = triggerRepo.GetTriggers(databaseName);
+            database.Triggers = triggerRepo.GetTriggers ( databaseName );
 
-            foreach (var table in database.Tables)
+            foreach ( var table in database.Tables )
             {
-                if(table.Name != null) table.Columns = tableRepo.GetTableColumns(databaseName, table.Name);
-                if (table.Name != null) table.Indexes = tableRepo.GetTableIndexes(databaseName, table.Name);
-                if (table.Name != null) table.ForeignKeys = tableRepo.GetTableForeignKeys(databaseName, table.Name);
+                if ( table.Name != null ) table.Columns = tableRepo.GetTableColumns ( databaseName, table.Name );
+                if ( table.Name != null ) table.Indexes = tableRepo.GetTableIndexes ( databaseName, table.Name );
+                if ( table.Name != null ) table.ForeignKeys = tableRepo.GetTableForeignKeys ( databaseName, table.Name );
 
                 // Genereer CREATE script
-                table.GenerateCreateScript();
+                table.GenerateCreateScript ();
             }
 
             return database;
         }
 
-        public List<string> GetDatabaseNames()
+        public List<string> GetDatabaseNames ()
         {
             try
             {
-                Debug.WriteLine("[DEBUG] DatabaseRepository.GetDatabaseNames() called");
+                Debug.WriteLine ( "[DEBUG] DatabaseRepository.GetDatabaseNames() called" );
                 var databases = new List<string>();
                 string query = "SHOW DATABASES";
 
-                Debug.WriteLine("[DEBUG] Executing query...");
+                Debug.WriteLine ( "[DEBUG] Executing query..." );
                 var dataTable = ExecuteQuery(query);
-                Debug.WriteLine($"[DEBUG] Query returned {dataTable.Rows.Count} rows");
+                Debug.WriteLine ( $"[DEBUG] Query returned {dataTable.Rows.Count} rows" );
 
-                foreach (DataRow row in dataTable.Rows)
+                foreach ( DataRow row in dataTable.Rows )
                 {
                     var dbName = GetStringSafe(row, "Database");
-                    Debug.WriteLine($"[DEBUG] Raw database name from DB: '{dbName}'");
+                    Debug.WriteLine ( $"[DEBUG] Raw database name from DB: '{dbName}'" );
 
-                    if (string.IsNullOrEmpty(dbName))
+                    if ( string.IsNullOrEmpty ( dbName ) )
                         continue;
 
                     var lowerDbName = dbName.ToLower();
 
                     // Filter systeemdatabases
-                    if (!lowerDbName.Contains("sys") &&
-                        !lowerDbName.Contains("information_schema") &&
-                        !lowerDbName.Contains("performance_schema") &&
-                        !lowerDbName.Contains("mysql"))
+                    if ( !lowerDbName.Contains ( "sys" ) &&
+                        !lowerDbName.Contains ( "information_schema" ) &&
+                        !lowerDbName.Contains ( "performance_schema" ) &&
+                        !lowerDbName.Contains ( "mysql" ) )
                     {
-                        databases.Add(dbName);
-                        Debug.WriteLine($"[DEBUG] Added to list: {dbName}");
+                        databases.Add ( dbName );
+                        Debug.WriteLine ( $"[DEBUG] Added to list: {dbName}" );
                     }
                     else
                     {
-                        Debug.WriteLine($"[DEBUG] Filtered out (system DB): {dbName}");
+                        Debug.WriteLine ( $"[DEBUG] Filtered out (system DB): {dbName}" );
                     }
                 }
 
-                Debug.WriteLine($"[DEBUG] Returning {databases.Count} databases");
+                Debug.WriteLine ( $"[DEBUG] Returning {databases.Count} databases" );
                 return databases;
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
-                Debug.WriteLine($"[DEBUG] Error in GetDatabaseNames: {ex.Message}");
-                Debug.WriteLine($"[DEBUG] Stack trace: {ex.StackTrace}");
+                Debug.WriteLine ( $"[DEBUG] Error in GetDatabaseNames: {ex.Message}" );
+                Debug.WriteLine ( $"[DEBUG] Stack trace: {ex.StackTrace}" );
                 throw;
             }
         }
 
-        private DatabaseInfo GetDatabaseInfo(string databaseName)
+        private DatabaseInfo GetDatabaseInfo ( string databaseName )
         {
             var info = new DatabaseInfo();
 
@@ -145,11 +138,11 @@ namespace MySqlAnalyzer.Repositories
 
             var dataTable = ExecuteQuery(query);
 
-            if (dataTable.Rows.Count > 0)
+            if ( dataTable.Rows.Count > 0 )
             {
                 var row = dataTable.Rows[0];
-                info.DefaultCharacterSet = GetStringSafe(row, "DEFAULT_CHARACTER_SET_NAME");
-                info.DefaultCollation = GetStringSafe(row, "DEFAULT_COLLATION_NAME");
+                info.DefaultCharacterSet = GetStringSafe ( row, "DEFAULT_CHARACTER_SET_NAME" );
+                info.DefaultCollation = GetStringSafe ( row, "DEFAULT_COLLATION_NAME" );
             }
 
             return info;

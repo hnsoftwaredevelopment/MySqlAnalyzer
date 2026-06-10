@@ -14,7 +14,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Icons/Icons.xaml" />
-                <ResourceDictionary Source="/Resources/Styles/TabControlSyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/TabControlStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/DataGridStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Converters -->

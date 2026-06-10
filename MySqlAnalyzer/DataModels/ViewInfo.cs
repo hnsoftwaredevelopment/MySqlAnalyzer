@@ -1,8 +1,7 @@
-﻿namespace MySqlAnalyzer.Models;
+﻿namespace MySqlAnalyzer.DataModels;
 
-public class ViewModel : DatabaseObject
+public class ViewInfo
 {
-    public string? Definer { get; set; }
     public string ViewName { get; set; } = string.Empty;
     public bool IsUpdatable { get; set; }
     public string Algorithm { get; set; } = string.Empty;
@@ -11,14 +10,9 @@ public class ViewModel : DatabaseObject
     public string Definition { get; set; } = string.Empty;
     public string CharacterSet { get; set; } = string.Empty;
     public string Collation { get; set; } = string.Empty;
-    public List<ViewColumn> Columns { get; set; } = new ();
+    //public List<ViewColumn> Columns { get; set; } = new ();
     public DateTime? Created { get; set; }
     public DateTime? LastAltered { get; set; }
-
-    // Navigatie properties
-    public List<ViewColumn> ViewColumns { get; set; } = [];
-    public List<string> DependentTables { get; set; } = [];
-    public List<string> DependentViews { get; set; } = [];
 }
 
 public class ViewColumn
